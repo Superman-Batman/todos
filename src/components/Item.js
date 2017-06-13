@@ -4,13 +4,17 @@
 import React, { Component } from 'react';
 
 export default class Item extends Component{
+    constructor(props){
+        super(props);
+    }
     render(){
+        let {todo,handlerDestroy} = this.props;
         return (
-            <li className="todo completed">
+            <li className="todo">
                 <div className="view">
-                    <input className="toggle" type="checkbox" value="heheeheh" />
-                        <label>1111</label>
-                        <button className="destroy"></button>
+                    <input className="toggle" type="checkbox" />
+                        <label>{todo.value}</label>
+                        <button className="destroy" onClick={()=>{ handlerDestroy(todo) }}></button>
                 </div>
                 <input className="edit" />
             </li>
