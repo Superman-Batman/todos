@@ -11,12 +11,14 @@ let dfPath = {
 };
 
 let dfConfig = {
-    entry: [
-        './src/app.js'
-    ],
+    entry: {
+        app:["webpack-hot-middleware/client?reload=true",
+            './src/app.js'
+        ]
+    },
     output: {
         path: path.resolve(__dirname, '../dist/assets'),
-        filename: 'app.js',//hot  不能[name].js
+        filename: '[name].js',
         publicPath: '/assets/'
     },
     module: {

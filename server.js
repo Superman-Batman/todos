@@ -10,7 +10,7 @@ const express = require('express');
 
 let app = new express();
 let port = 8088;
-config.entry.unshift('webpack-hot-middleware/client?reload=true');
+//config.entry.unshift('webpack-hot-middleware/client?reload=true');
 
 let compiler = webpack(config);
 
