@@ -16,6 +16,8 @@ export default class App extends Component{
         }
         this.handlerAddTodo = this.handlerAddTodo.bind(this);
         this.handlerDestroy = this.handlerDestroy.bind(this);
+        this.completedDestroy = this.completedDestroy.bind(this);
+        this.completed = this.completed.bind(this);
     }
     handlerAddTodo(ev){
         if(ev.keyCode!=13) return;
@@ -42,8 +44,32 @@ export default class App extends Component{
         });
     }
 
+    completedDestroy(){
+        console.log(todosData);
+        let {todosData} = this.state;
+        todosData = todosData.filter((el, index)=>{
+            return !el.completed;
+        });
+        console.log(todosData);
+        this.setState({
+            todosData
+        })
+    }
+
+    completed(todo){
+        let {todosData} = this.state;
+        todosData.map((el,index)=>{
+            if(el.id==todo.id){
+            el.completed = !el.completed;
+            }
+        });
+        this.setState({
+            todosData
+        })
+    }
+
     render(){
-        let {handlerAddTodo,handlerDestroy} = this;
+        let {handlerAddTodo,handlerDestroy,completedDestroy,completed} = this;
         let {todosData} = this.state;
         let ItemsData = [];
         //{...el} 展开el <Item key={index}> 再<>中写的变量要加{} key 用于dom diff,单props中取不到
@@ -51,7 +77,8 @@ export default class App extends Component{
             let ItemData = <Item {...{
                 todo: el,
                 //key: index,//在这写也行
-                handlerDestroy:handlerDestroy
+                handlerDestroy:handlerDestroy,
+                completed:completed
             }}  key={index}/>;
             ItemsData.push(ItemData)
         });
@@ -71,7 +98,7 @@ export default class App extends Component{
                             {ItemsData}
                         </ul>
                 </section>
-                <Footer></Footer>
+                <Footer completedDestroy={completedDestroy}></Footer>
             </div>
         )
     }

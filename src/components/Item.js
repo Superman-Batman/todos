@@ -8,11 +8,11 @@ export default class Item extends Component{
         super(props);
     }
     render(){
-        let {todo,handlerDestroy} = this.props;
+        let {todo,handlerDestroy,completed} = this.props;
         return (
             <li className="todo">
                 <div className="view">
-                    <input className="toggle" type="checkbox" />
+                    <input className="toggle" type="checkbox" checked={todo.completed} onChange={()=>{completed(todo)}} />
                         <label>{todo.value}</label>
                         <button className="destroy" onClick={()=>{ handlerDestroy(todo) }}></button>
                 </div>

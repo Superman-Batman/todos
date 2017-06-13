@@ -4,7 +4,10 @@
 import React, { Component } from 'react';
 
 export default class Footer extends Component{
+
+
     render(){
+        let {completedDestroy} = this.props;
         return (
             <footer className="footer">
                 <span className="todo-count">
@@ -22,7 +25,7 @@ export default class Footer extends Component{
                         <a href="#" className="">Complete</a>
                     </li>
                 </ul>
-                <button className="clear-completed">Clear completed</button>
+                <button className="clear-completed" onClick={completedDestroy}>Clear completed</button>
             </footer>
         )
 
