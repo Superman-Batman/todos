@@ -55,10 +55,20 @@ export default class App extends Component{
     }
 
     handlerDestroy(todo){
-        let {todosData} = this.state;
-        todosData = todosData.filter((el, index)=>el.id!=todo.id);
+        let {todosData,left} = this.state;
+        todosData = todosData.filter((el, index)=>{
+                if(el.id==todo.id){
+                    if(todo.completed){
+                    }else{
+                        left--;
+                    }
+                }
+
+                return el.id!=todo.id
+        });
         this.setState({
-            todosData
+            todosData,
+            left
         });
     }
 
@@ -73,7 +83,8 @@ export default class App extends Component{
             todosData
         })
     }
-//map 对不同数组,不改变原数组,如果数组里是对象,会改变对象属性,一般使用是return每一个元素给一个新的数组
+//map 对普通数组,不改变原数组,如果数组里是对象,会改变对象属性,一般使用是return每一个元素给一个新的数组
+    // filter 过滤返回为true的元素
     oneCompleted(todo){
         let {todosData,left} = this.state;
         todosData.map((el,index)=>{
