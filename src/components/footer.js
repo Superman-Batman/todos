@@ -2,13 +2,14 @@
  * Created by mahong on 17/6/13.
  */
 import React, { Component } from 'react';
-
-export default class Footer extends Component{
-
-
-    render(){
+let propTypes = {
+    changeViews : PT.func,
+    view: PT.oneOf(["all", "active", "complete"])
+}
+//无状态函数式组件  数据在顶层 把数据传到底层, 最好底层只用于显示数据,都是无状态函数式组件
+export default function Footer(props){
         //父子组件之间数据传递用props,父的state子组件获取不到
-        let {completedDestroy,left,totalTodos,view,changeViews} = this.props;
+        let {completedDestroy,left,totalTodos,view,changeViews} = props;
         let clearBtn = null;
         if(left!=totalTodos){
             clearBtn = <button className="clear-completed" onClick={completedDestroy}>Clear completed</button>
@@ -32,10 +33,8 @@ export default class Footer extends Component{
                 </ul>
                 {clearBtn}
             </footer>
-        )
-
-    }
+        );
 }
 
-
+Footer.propTypes = propTypes;
 
