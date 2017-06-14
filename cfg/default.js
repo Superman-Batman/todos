@@ -14,7 +14,8 @@ let dfConfig = {
     entry: {
         app:["webpack-hot-middleware/client?reload=true",
             './src/app.js'
-        ]
+        ],
+        tingyun: './src/tingyun-rum.js'
     },
     output: {
         path: path.resolve(__dirname, '../dist/assets'),
