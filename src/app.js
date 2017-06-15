@@ -13,6 +13,7 @@ import style from 'style/index.css';
 export default class App extends Component{
     constructor(props){
         super(props);
+        //有router就会有 match history location
         console.log("app");
         console.log(props);
         let todosData = JSON.parse(localStorage.getItem("todosData"));
@@ -278,9 +279,9 @@ function Bbc(props){
 //)
 ReactDOM.render(
     <Router>
-        <div>
-            <Route path='/' component={App}/>
-        </div>
+
+        <Route path='/' component={App}/>
+
     </Router>
     ,
     document.getElementById('root')
