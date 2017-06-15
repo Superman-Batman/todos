@@ -23,6 +23,12 @@ export default class Item extends Component{
         this.keyDownValue = this.keyDownValue.bind(this);
         this.blurValue = this.blurValue.bind(this);
     }
+    componentDidMount(){
+       // alert(1111)
+    }
+    componentWillUnmount(){//网页关闭时不会出发组件卸载
+       // alert(123)
+    }
 
     onEdit(){
         let {todo} = this.props;
@@ -40,7 +46,7 @@ export default class Item extends Component{
     }
 
     changeValue(ev){
-        let {todo} = this.props;//todo是一个引用变量,他的改变会影响this.props.todo的值
+        let {todo} = this.props;//todo是一个引用变量,他的改变会影响this.props.todo的值,在改变之前可以使用之前的值
         let {inputValue} = this.state; //这个inputValue就是一个普通的变量,他的改变不会影响state,state改变是因为下面的setState
 
         let value = ev.target.value;

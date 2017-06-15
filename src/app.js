@@ -11,10 +11,15 @@ import style from 'style/index.css';
 export default class App extends Component{
     constructor(props){
         super(props);
+        let todosData = JSON.parse(localStorage.getItem("todosData"));
+        let left = 0;
+        todosData.map((el, index)=>{
+            if(!el.completed) left++;
+        });
         this.state = {
-            todosData: [],
+            todosData: todosData||[],
             inputValue:"",
-            left:0,
+            left:left,
             view:"all"
         };
         this.handlerAddTodo = this.handlerAddTodo.bind(this);
@@ -25,6 +30,8 @@ export default class App extends Component{
         this.toggleAll = this.toggleAll.bind(this);
         this.changeViews = this.changeViews.bind(this);
     }
+
+
     changeValue(ev){
         let inputValue = ev.target.value;
         this.setState({
@@ -133,6 +140,8 @@ export default class App extends Component{
     render(){
         let {handlerAddTodo,handlerDestroy,completedDestroy,oneCompleted,changeValue,toggleAll,changeViews} = this;
         let {todosData,inputValue,left,view} = this.state;
+        console.log(todosData);
+        localStorage.setItem("todosData",JSON.stringify(todosData));
         let ItemsData = [];
         //{...el} 展开el <Item key={index}> 再<>中写的变量要加{} key 用于dom diff,单props中取不到
         todosData.map((el, index)=>{
