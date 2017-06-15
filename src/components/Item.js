@@ -11,6 +11,8 @@ let propTypes = {
 export default class Item extends Component{
     constructor(props){
         super(props);
+        console.log("item");
+        console.log(props);
         //子元素内部的状态
         this.state = {
             inEdit: false,

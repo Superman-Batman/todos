@@ -3,6 +3,8 @@
  */
 import React,{ Component } from 'react';
 import ReactDOM from  'react-dom';
+import {BrowserRouter as Router ,Route } from "react-router-dom";
+//如果用HashRouter 则页面会自动再后面加上/#/,server中 用app.get('/'),而不用现在的app.get('/*')
 import Item from 'Item';
 import Footer from "Footer"
 import style from 'style/index.css';
@@ -11,6 +13,8 @@ import style from 'style/index.css';
 export default class App extends Component{
     constructor(props){
         super(props);
+        console.log("app");
+        console.log(props);
         let todosData = JSON.parse(localStorage.getItem("todosData"));
         let left = 0;
         todosData.map((el, index)=>{
@@ -30,7 +34,6 @@ export default class App extends Component{
         this.toggleAll = this.toggleAll.bind(this);
         this.changeViews = this.changeViews.bind(this);
     }
-
 
     changeValue(ev){
         let inputValue = ev.target.value;
@@ -80,12 +83,10 @@ export default class App extends Component{
     }
 
     completedDestroy(){
-        console.log(todosData);
         let {todosData} = this.state;
         todosData = todosData.filter((el, index)=>{
             return !el.completed;
         });
-        console.log(todosData);
         this.setState({
             todosData
         })
@@ -140,13 +141,14 @@ export default class App extends Component{
     render(){
         let {handlerAddTodo,handlerDestroy,completedDestroy,oneCompleted,changeValue,toggleAll,changeViews} = this;
         let {todosData,inputValue,left,view} = this.state;
-        console.log(todosData);
         localStorage.setItem("todosData",JSON.stringify(todosData));
         let ItemsData = [];
+        console.log(this.props);
+        let {location:{pathname}} = this.props;
         //{...el} 展开el <Item key={index}> 再<>中写的变量要加{} key 用于dom diff,单props中取不到
         todosData.map((el, index)=>{
-            switch(view){
-                case 'active':
+            switch(pathname){
+                case '/active':
                     if(!el.completed){
                         let ItemData = <Item {...{
                             todo: el,
@@ -158,7 +160,7 @@ export default class App extends Component{
                     }
 
                     break;
-                case 'complete':
+                case '/complete':
                     if(el.completed){
                         let ItemData = <Item {...{
                             todo: el,
@@ -169,7 +171,7 @@ export default class App extends Component{
                         ItemsData.push(ItemData)
                     }
                     break;
-                case 'all':
+                case '/':
                     let ItemData = <Item {...{
                         todo: el,
                         //key: index,//在这写也行
@@ -200,7 +202,8 @@ export default class App extends Component{
                 left,
                 totalTodos:todosData.length,
                 completedDestroy,
-                changeViews
+                changeViews,
+                pathname
             }} ></Footer>
         }
 
@@ -222,9 +225,63 @@ export default class App extends Component{
         )
     }
 }
+//数据在state中传递
 
+function Aac(props){
+    let {history} = props;
+    console.log(props);
+    return (
+        <div onClick={
+        ()=>{
+            history.push('/bbc', {
+                name: "xiaowang"
+            });
+        }
+        }>aac</div>
+    )
+}
 
+function Bbc(props){
+    console.log(props);
+    return (
+        <div>bbc</div>
+    )
+}
+//<Route path='/' component={App}/> 无论输入什么这个都会先渲染再在同一个页面渲染其他,这事通透,用exact限制一下就好了
+//ReactDOM.render(
+//    <Router>
+//        <div>
+//            <p><Link to="/app">app</Link> </p>
+//            <p><Link to={{
+//                pathname: "/aac",
+//                state:{
+//                 name: 'xiaoma'
+//                }
+//            }}>aac</Link> </p>
+//            <p><Link to="/bbc">bbc</Link> </p>
+//            <Route exact path='/' component={App}/>
+//            <Route  path='/app' render={ (props)=>{
+//                console.log(props)
+//                return (
+//                    <div>
+//                        <p>hellooooooo</p>
+//                        <App></App>
+//                    </div>
+//                )
+//            }}/>
+//            <Route path='/aac' component={Aac}/>
+//            <Route path='/bbc' component={Bbc}/>
+//        </div>
+//    </Router>
+//    ,
+//    document.getElementById('root')
+//)
 ReactDOM.render(
-    <App></App>,
+    <Router>
+        <div>
+            <Route path='/' component={App}/>
+        </div>
+    </Router>
+    ,
     document.getElementById('root')
 )
